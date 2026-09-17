@@ -1,25 +1,17 @@
+
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import Settings from "./pages/Settings";
+import Dashboard from "./pages/Dashboard";
+import Workspace from "./pages/Workspace";
 
 function App() {
   return (
-    <div className="flex min-h-screen bg-gray-100">
-
-      {/* Sidebar */}
+    <div className="app">
       <Sidebar />
-
-      {/* Main Content */}
-      <div className="flex-1">
-
-        {/* Navbar */}
+      <div className="main-content">
         <Navbar />
-
-        {/* Settings Page */}
-        <Settings />
-
+        <Dashboard />
       </div>
-
     </div>
   );
 }
