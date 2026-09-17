@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Workspace from "./pages/Workspace";
 
+
 function App() {
   return (
     <div className="app">
