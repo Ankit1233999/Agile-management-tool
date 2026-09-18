@@ -1,16 +1,15 @@
-
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
-import Workspace from "./pages/Workspace";
+import KanbanBoard from "./pages/KanbanBoard";
 
 function App() {
   return (
-    <div className="app">
+    <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
-      <div className="main-content">
+
+      <div className="flex-1">
         <Navbar />
-        <Dashboard />
+        <KanbanBoard />
       </div>
     </div>
   );
