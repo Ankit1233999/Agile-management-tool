@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
+    {/* Main application layout */}
     <div className="app">
       <Sidebar />
       <div className="main-content">
