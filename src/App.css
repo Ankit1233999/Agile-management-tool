@@ -44,3 +44,7 @@
 .create-card{
   border:2px dashed #2563eb;
 }
+
+.workspace-card button:hover{
+  opacity:0.9;
+}
