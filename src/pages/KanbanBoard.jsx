@@ -58,12 +58,12 @@ function KanbanBoard() {
   ];
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800">
+    <div className="p-8 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">
         Kanban Board
       </h1>
 
-      <p className="text-gray-500 mb-6">
+      <p className="text-gray-600 mb-8">
         Manage your project tasks
       </p>
 
@@ -94,55 +94,29 @@ function KanbanBoard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {columns.map((column) => (
           <div
-            key={column.id}
-            className="bg-gray-200 rounded-xl p-4 min-h-96"
+            key={column.title}
+            className="bg-white rounded-xl p-5 shadow-sm"
           >
-            <h2 className="text-lg font-semibold mb-4 text-gray-700">
+            <h2 className="text-xl font-semibold text-gray-800 mb-5">
               {column.title}
             </h2>
 
-            {tasks
-              .filter((task) => task.status === column.id)
-              .map((task) => (
+            <div className="space-y-3">
+              {column.tasks.map((task) => (
                 <div
-                  key={task.id}
-                  className="bg-white p-4 rounded-lg shadow-sm mb-3"
+                  key={task}
+                  className="bg-gray-100 p-4 rounded-lg border"
                 >
-                  <p className="font-medium text-gray-800">
-                    {task.title}
+                  <p className="font-medium text-gray-700">
+                    {task}
                   </p>
-
-                  {/* Move buttons */}
-                  <div className="flex gap-2 mt-3 flex-wrap">
-                    {column.id !== "todo" && (
-                      <button
-                        onClick={() => moveTask(task.id, "todo")}
-                        className="text-xs px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                      >
-                        To Do
-                      </button>
-                    )}
-
-                    {column.id !== "progress" && (
-                      <button
-                        onClick={() => moveTask(task.id, "progress")}
-                        className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-                      >
-                        Progress
-                      </button>
-                    )}
-
-                    {column.id !== "done" && (
-                      <button
-                        onClick={() => moveTask(task.id, "done")}
-                        className="text-xs px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200"
-                      >
-                        Done
-                      </button>
-                    )}
-                  </div>
                 </div>
               ))}
+            </div>
+
+            <button className="mt-5 w-full py-2 rounded-lg border border-dashed border-gray-400 text-gray-600 hover:bg-gray-50">
+              + Add Card
+            </button>
           </div>
         ))}
       </div>
