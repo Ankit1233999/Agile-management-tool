@@ -3,30 +3,25 @@ import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 
+import connectDB from "./config/db.js";
+
 dotenv.config();
 
 const app = express();
 
-/*
-|--------------------------------------------------------------------------
-| Environment Variables
-|--------------------------------------------------------------------------
-*/
-
 const PORT = process.env.PORT || 5000;
 
 const CLIENT_URL =
-  process.env.CLIENT_URL || "http://localhost:5173";
+  process.env.CLIENT_URL ||
+  "http://localhost:5173";
 
 /*
 |--------------------------------------------------------------------------
-| Security Middleware
+| Security
 |--------------------------------------------------------------------------
 */
 
-app.use(
-  helmet()
-);
+app.use(helmet());
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +38,7 @@ app.use(
 
 /*
 |--------------------------------------------------------------------------
-| JSON Body Parser
+| JSON
 |--------------------------------------------------------------------------
 */
 
@@ -55,7 +50,7 @@ app.use(
 
 /*
 |--------------------------------------------------------------------------
-| Basic Request Logger
+| Request Logger
 |--------------------------------------------------------------------------
 */
 
@@ -69,7 +64,7 @@ app.use((req, _res, next) => {
 
 /*
 |--------------------------------------------------------------------------
-| Root Route
+| Root
 |--------------------------------------------------------------------------
 */
 
@@ -82,7 +77,7 @@ app.get("/", (_req, res) => {
 
 /*
 |--------------------------------------------------------------------------
-| Health Check
+| Health
 |--------------------------------------------------------------------------
 */
 
@@ -91,14 +86,16 @@ app.get("/api/health", (_req, res) => {
     success: true,
     status: "OK",
     message: "Backend server is running",
-    environment: process.env.NODE_ENV || "development",
-    timestamp: new Date().toISOString()
+    database:
+      "MongoDB connection configured",
+    timestamp:
+      new Date().toISOString()
   });
 });
 
 /*
 |--------------------------------------------------------------------------
-| 404 Handler
+| 404
 |--------------------------------------------------------------------------
 */
 
@@ -112,13 +109,16 @@ app.use((req, res) => {
 
 /*
 |--------------------------------------------------------------------------
-| Global Error Handler
+| Error Handler
 |--------------------------------------------------------------------------
 */
 
 app.use(
   (err, _req, res, _next) => {
-    console.error("SERVER ERROR:", err);
+    console.error(
+      "SERVER ERROR:",
+      err
+    );
 
     res.status(
       err.status || 500
@@ -137,34 +137,37 @@ app.use(
 |--------------------------------------------------------------------------
 */
 
-app.listen(
-  PORT,
-  () => {
-    console.log("");
-    console.log(
-      "========================================"
-    );
-    console.log(
-      "   AGILE MANAGEMENT TOOL BACKEND"
-    );
-    console.log(
-      "========================================"
-    );
-    console.log(
-      `Server: http://localhost:${PORT}`
-    );
-    console.log(
-      `Health: http://localhost:${PORT}/api/health`
-    );
-    console.log(
-      `Frontend: ${CLIENT_URL}`
-    );
-    console.log(
-      `Environment: ${process.env.NODE_ENV || "development"}`
-    );
-    console.log(
-      "========================================"
-    );
-    console.log("");
-  }
-);
+const startServer = async () => {
+  await connectDB();
+
+  app.listen(
+    PORT,
+    () => {
+      console.log("");
+      console.log(
+        "========================================"
+      );
+      console.log(
+        "   AGILE MANAGEMENT TOOL BACKEND"
+      );
+      console.log(
+        "========================================"
+      );
+      console.log(
+        `Server: http://localhost:${PORT}`
+      );
+      console.log(
+        `Health: http://localhost:${PORT}/api/health`
+      );
+      console.log(
+        "MongoDB: Connected"
+      );
+      console.log(
+        "========================================"
+      );
+      console.log("");
+    }
+  );
+};
+
+startServer();
