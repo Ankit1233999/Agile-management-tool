@@ -1,28 +1,35 @@
+import axios from "axios";
+
 const API_URL =
   import.meta.env.VITE_API_URL ||
   "http://localhost:5000/api";
 
-export const checkBackend = async () => {
-  try {
-    const response = await fetch(
-      `${API_URL}/health`
-    );
+const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
 
-    if (!response.ok) {
-      throw new Error(
-        `HTTP error: ${response.status}`
+
+api.interceptors.request.use(
+  (config) => {
+    const token =
+      localStorage.getItem(
+        "token"
       );
+
+    if (token) {
+      config.headers.Authorization =
+        `Bearer ${token}`;
     }
 
-    return await response.json();
-  } catch (error) {
-    console.error(
-      "Backend connection failed:",
-      error
-    );
+    return config;
+  },
 
-    throw error;
+  (error) => {
+    return Promise.reject(error);
   }
-};
+);
 
-export default API_URL;
+export default api;

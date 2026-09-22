@@ -4,6 +4,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -86,12 +87,21 @@ app.get("/api/health", (_req, res) => {
     success: true,
     status: "OK",
     message: "Backend server is running",
-    database:
-      "MongoDB connection configured",
-    timestamp:
-      new Date().toISOString()
+    database: "MongoDB connection configured",
+    timestamp: new Date().toISOString()
   });
 });
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
+
+app.use(
+  "/api/auth",
+  authRoutes
+);
 
 /*
 |--------------------------------------------------------------------------
