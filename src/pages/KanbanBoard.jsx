@@ -1,134 +1,394 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+} from "@hello-pangea/dnd";
+
+const socket = io("http://localhost:5000");
 
 function KanbanBoard() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Create project structure",
-      status: "todo",
+  const boardId = "main-board";
+
+  const [columns, setColumns] = useState({
+    todo: {
+      id: "todo",
+      title: "To Do",
+      tasks: [
+        {
+          id: "task-1",
+          title: "Create project structure",
+        },
+        {
+          id: "task-2",
+          title: "Build dashboard UI",
+        },
+      ],
     },
-    {
-      id: 2,
-      title: "Build dashboard UI",
-      status: "progress",
+
+    progress: {
+      id: "progress",
+      title: "In Progress",
+      tasks: [
+        {
+          id: "task-3",
+          title: "Setup GitHub repository",
+        },
+      ],
     },
-    {
-      id: 3,
-      title: "Setup GitHub repository",
-      status: "done",
+
+    done: {
+      id: "done",
+      title: "Done",
+      tasks: [],
     },
-  ]);
+  });
 
   const [newTask, setNewTask] = useState("");
 
+  // ===============================
+  // SOCKET CONNECTION
+  // ===============================
+
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("connect", () => {
+      console.log("Connected to Socket.io:", socket.id);
+
+      socket.emit("join-board", boardId);
+    });
+
+    // Receive task movement from another user
+    socket.on("task-moved", (data) => {
+      console.log("Task moved by another user:", data);
+
+      setColumns((currentColumns) => {
+        const updatedColumns = {
+          ...currentColumns,
+        };
+
+        // Remove task from every column
+        Object.keys(updatedColumns).forEach((columnId) => {
+          updatedColumns[columnId] = {
+            ...updatedColumns[columnId],
+            tasks: updatedColumns[columnId].tasks.filter(
+              (task) => task.id !== data.taskId
+            ),
+          };
+        });
+
+        // Add task to new column
+        const movedTask = {
+          id: data.taskId,
+          title: data.taskTitle,
+        };
+
+        updatedColumns[data.destinationColumn].tasks.splice(
+          data.destinationIndex,
+          0,
+          movedTask
+        );
+
+        return updatedColumns;
+      });
+    });
+
+    // Receive new task from another user
+    socket.on("task-created", (data) => {
+      console.log("New task from another user:", data);
+
+      setColumns((currentColumns) => ({
+        ...currentColumns,
+        todo: {
+          ...currentColumns.todo,
+          tasks: [
+            ...currentColumns.todo.tasks,
+            {
+              id: data.taskId,
+              title: data.taskTitle,
+            },
+          ],
+        },
+      }));
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from Socket.io");
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("task-moved");
+      socket.off("task-created");
+      socket.off("disconnect");
+      socket.disconnect();
+    };
+  }, []);
+
+  // ===============================
+  // ADD TASK
+  // ===============================
+
   const addTask = () => {
-    if (!newTask.trim()) return;
+    if (!newTask.trim()) {
+      return;
+    }
+
+    const taskId = `task-${Date.now()}`;
 
     const task = {
-      id: Date.now(),
+      id: taskId,
       title: newTask,
-      status: "todo",
     };
 
-    setTasks([...tasks, task]);
+    setColumns((currentColumns) => ({
+      ...currentColumns,
+
+      todo: {
+        ...currentColumns.todo,
+
+        tasks: [
+          ...currentColumns.todo.tasks,
+          task,
+        ],
+      },
+    }));
+
+    // Send task to other users
+    socket.emit("task-created", {
+      boardId,
+      taskId,
+      taskTitle: newTask,
+    });
+
     setNewTask("");
   };
 
-  const moveTask = (id, status) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, status } : task
-      )
-    );
+  // ===============================
+  // DRAG AND DROP
+  // ===============================
+
+  const onDragEnd = (result) => {
+    const {
+      destination,
+      source,
+      draggableId,
+    } = result;
+
+    // Dropped outside board
+    if (!destination) {
+      return;
+    }
+
+    // Same position
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const sourceColumn =
+      columns[source.droppableId];
+
+    const destinationColumn =
+      columns[destination.droppableId];
+
+    const movedTask =
+      sourceColumn.tasks[source.index];
+
+    // Moving inside same column
+    if (
+      source.droppableId ===
+      destination.droppableId
+    ) {
+      const newTasks = [
+        ...sourceColumn.tasks,
+      ];
+
+      newTasks.splice(source.index, 1);
+
+      newTasks.splice(
+        destination.index,
+        0,
+        movedTask
+      );
+
+      setColumns({
+        ...columns,
+
+        [source.droppableId]: {
+          ...sourceColumn,
+          tasks: newTasks,
+        },
+      });
+    }
+
+    // Moving to another column
+    else {
+      const sourceTasks = [
+        ...sourceColumn.tasks,
+      ];
+
+      sourceTasks.splice(source.index, 1);
+
+      const destinationTasks = [
+        ...destinationColumn.tasks,
+      ];
+
+      destinationTasks.splice(
+        destination.index,
+        0,
+        movedTask
+      );
+
+      setColumns({
+        ...columns,
+
+        [source.droppableId]: {
+          ...sourceColumn,
+          tasks: sourceTasks,
+        },
+
+        [destination.droppableId]: {
+          ...destinationColumn,
+          tasks: destinationTasks,
+        },
+      });
+    }
+
+    // Send movement to other users
+    socket.emit("task-moved", {
+      boardId,
+      taskId: draggableId,
+      taskTitle: movedTask.title,
+      destinationColumn:
+        destination.droppableId,
+      destinationIndex:
+        destination.index,
+    });
   };
 
-  const columns = [
-    { id: "todo", title: "To Do" },
-    { id: "progress", title: "In Progress" },
-    { id: "done", title: "Done" },
-  ];
-
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800">
+    <div className="min-h-screen bg-gray-100 p-8">
+
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">
         Kanban Board
       </h1>
 
-      <p className="text-gray-500 mb-6">
+      <p className="text-gray-600 mb-6">
         Manage your project tasks
       </p>
 
-      <div className="flex gap-3 mb-6">
+      {/* Add Task */}
+      <div className="flex gap-3 mb-8">
+
         <input
           type="text"
           value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
+          onChange={(e) =>
+            setNewTask(e.target.value)
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              addTask();
+            }
+          }}
           placeholder="Enter new task..."
-          className="px-4 py-2 border rounded-lg w-80"
+          className="flex-1 max-w-xl px-4 py-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <button
           onClick={addTask}
-          className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
           + Add Task
         </button>
+
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {columns.map((column) => (
-          <div
-            key={column.id}
-            className="bg-gray-200 rounded-xl p-4 min-h-96"
-          >
-            <h2 className="text-lg font-semibold mb-4">
-              {column.title}
-            </h2>
+      {/* Kanban Board */}
 
-            {tasks
-              .filter((task) => task.status === column.id)
-              .map((task) => (
-                <div
-                  key={task.id}
-                  className="bg-white p-4 rounded-lg shadow-sm mb-3"
+      <DragDropContext onDragEnd={onDragEnd}>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          {Object.values(columns).map(
+            (column) => (
+
+              <div
+                key={column.id}
+                className="bg-white rounded-xl shadow-sm p-4"
+              >
+
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                  {column.title}
+                </h2>
+
+                <Droppable
+                  droppableId={column.id}
                 >
-                  <p className="font-medium text-gray-800">
-                    {task.title}
-                  </p>
+                  {(provided, snapshot) => (
 
-                  <div className="flex gap-2 mt-3">
-                    {column.id !== "todo" && (
-                      <button
-                        onClick={() => moveTask(task.id, "todo")}
-                        className="text-xs px-2 py-1 bg-gray-200 rounded"
-                      >
-                        To Do
-                      </button>
-                    )}
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className={`min-h-[300px] rounded-lg p-2 transition ${
+                        snapshot.isDraggingOver
+                          ? "bg-blue-50"
+                          : "bg-gray-50"
+                      }`}
+                    >
 
-                    {column.id !== "progress" && (
-                      <button
-                        onClick={() => moveTask(task.id, "progress")}
-                        className="text-xs px-2 py-1 bg-blue-100 rounded"
-                      >
-                        Progress
-                      </button>
-                    )}
+                      {column.tasks.map(
+                        (task, index) => (
 
-                    {column.id !== "done" && (
-                      <button
-                        onClick={() => moveTask(task.id, "done")}
-                        className="text-xs px-2 py-1 bg-green-100 rounded"
-                      >
-                        Done
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-          </div>
-        ))}
-      </div>
+                          <Draggable
+                            key={task.id}
+                            draggableId={task.id}
+                            index={index}
+                          >
+                            {(provided) => (
+
+                              <div
+                                ref={
+                                  provided.innerRef
+                                }
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className="bg-white border rounded-lg p-4 mb-3 shadow-sm cursor-grab"
+                              >
+
+                                <p className="font-medium text-gray-800">
+                                  {task.title}
+                                </p>
+
+                              </div>
+
+                            )}
+                          </Draggable>
+
+                        )
+                      )}
+
+                      {provided.placeholder}
+
+                    </div>
+
+                  )}
+                </Droppable>
+
+              </div>
+
+            )
+          )}
+
+        </div>
+
+      </DragDropContext>
+
     </div>
   );
 }
