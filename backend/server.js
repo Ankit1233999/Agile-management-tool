@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
+import workspaceRoutes from "./routes/workspaceRoutes.js";
 
 dotenv.config();
 
@@ -52,12 +53,14 @@ app.get("/api/health", (_req, res) => {
     timestamp: new Date().toISOString()
   });
 });
-
 // Authentication routes
 app.use("/api/auth", authRoutes);
 
-// Protected routes
+// Protected test routes
 app.use("/api/protected", protectedRoutes);
+
+// Workspace routes
+app.use("/api/workspaces", workspaceRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -5,12 +5,16 @@ const workspaceSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      minlength: 2,
+      maxlength: 100
     },
 
     description: {
       type: String,
-      default: ""
+      default: "",
+      trim: true,
+      maxlength: 500
     },
 
     owner: {
@@ -31,7 +35,4 @@ const workspaceSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model(
-  "Workspace",
-  workspaceSchema
-);
+export default mongoose.model("Workspace", workspaceSchema);
