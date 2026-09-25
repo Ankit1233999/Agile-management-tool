@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
+import boardRoutes from "./routes/boardRoutes.js";
 
 dotenv.config();
 
@@ -61,6 +62,8 @@ app.use("/api/protected", protectedRoutes);
 
 // Workspace routes
 app.use("/api/workspaces", workspaceRoutes);
+
+app.use("/api/boards", boardRoutes);
 
 // 404 handler
 app.use((req, res) => {
