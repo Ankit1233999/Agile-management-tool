@@ -1,117 +1,46 @@
-.page {
-  padding: 30px;
-  background: #f5f7fb;
-  min-height: 100vh;
+
+.page{
+  padding:30px;
+  background:#f5f7fb;
+  min-height:100vh;
 }
 
-.page h1 {
-  margin-bottom: 8px;
-  color: #1f2937;
-  font-size: 30px;
+.subtitle{
+  color:#666;
+  margin-bottom:25px;
 }
 
-.subtitle {
-  color: #6b7280;
-  margin-bottom: 25px;
-  font-size: 16px;
+.workspace-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
 }
 
-/* Workspace Grid */
-.workspace-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+.workspace-card{
+  background:white;
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Workspace Card */
-.workspace-card {
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-  transition: all 0.25s ease;
+.workspace-card h2{
+  margin-bottom:10px;
 }
 
-/* Card Hover */
-.workspace-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+.workspace-card p{
+  color:#666;
+  margin-bottom:18px;
 }
 
-/* Card Heading */
-.workspace-card h2 {
-  margin-bottom: 10px;
-  color: #1f2937;
-  font-size: 20px;
+.workspace-card button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-/* Card Description */
-.workspace-card p {
-  color: #6b7280;
-  margin-bottom: 18px;
-  line-height: 1.5;
-}
-
-/* Button */
-.workspace-card button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s ease;
-}
-
-/* Button Hover */
-.workspace-card button:hover {
-  background: #1d4ed8;
-}
-
-/* Create Workspace Card */
-.create-card {
-  border: 2px dashed #2563eb;
-  background: #eff6ff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Create Card Hover */
-.create-card:hover {
-  background: #dbeafe;
-  border-color: #1d4ed8;
-}
-
-/* Create Button */
-.create-card button {
-  background: #2563eb;
-}
-
-.create-card button:hover {
-  background: #1d4ed8;
-}
-
-/* Mobile Responsive */
-@media (max-width: 600px) {
-  .page {
-    padding: 20px;
-  }
-
-  .page h1 {
-    font-size: 24px;
-  }
-
-  .workspace-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .workspace-card {
-    padding: 18px;
-  }
+.create-card{
+  border:2px dashed #2563eb;
 }
