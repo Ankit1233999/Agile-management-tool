@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import protectedRoutes from "./routes/protectedRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
 import boardRoutes from "./routes/boardRoutes.js";
+import listRoutes from "./routes/listRoutes.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.get("/api/health", (_req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
 // Authentication routes
 app.use("/api/auth", authRoutes);
 
@@ -63,7 +65,11 @@ app.use("/api/protected", protectedRoutes);
 // Workspace routes
 app.use("/api/workspaces", workspaceRoutes);
 
+// Board routes
 app.use("/api/boards", boardRoutes);
+
+// List routes
+app.use("/api/lists", listRoutes);
 
 // 404 handler
 app.use((req, res) => {

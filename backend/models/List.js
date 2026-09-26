@@ -5,7 +5,9 @@ const listSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      minlength: 1,
+      maxlength: 100
     },
 
     board: {
@@ -16,6 +18,7 @@ const listSchema = new mongoose.Schema(
 
     position: {
       type: Number,
+      required: true,
       default: 0
     }
   },
@@ -24,7 +27,4 @@ const listSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model(
-  "List",
-  listSchema
-);
+export default mongoose.model("List", listSchema);
