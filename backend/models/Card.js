@@ -5,12 +5,16 @@ const cardSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
+      minlength: 1,
+      maxlength: 200
     },
 
     description: {
       type: String,
-      default: ""
+      default: "",
+      trim: true,
+      maxlength: 5000
     },
 
     list: {
@@ -33,49 +37,24 @@ const cardSchema = new mongoose.Schema(
 
     priority: {
       type: String,
-      enum: [
-        "low",
-        "medium",
-        "high"
-      ],
+      enum: ["low", "medium", "high"],
       default: "medium"
     },
 
     position: {
       type: Number,
+      required: true,
       default: 0
     },
 
     dueDate: {
       type: Date,
       default: null
-    },
-
-    comments: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User"
-        },
-
-        text: {
-          type: String,
-          trim: true
-        },
-
-        createdAt: {
-          type: Date,
-          default: Date.now
-        }
-      }
-    ]
+    }
   },
   {
     timestamps: true
   }
 );
 
-export default mongoose.model(
-  "Card",
-  cardSchema
-);
+export default mongoose.model("Card", cardSchema);

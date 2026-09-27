@@ -9,6 +9,7 @@ import protectedRoutes from "./routes/protectedRoutes.js";
 import workspaceRoutes from "./routes/workspaceRoutes.js";
 import boardRoutes from "./routes/boardRoutes.js";
 import listRoutes from "./routes/listRoutes.js";
+import cardRoutes from "./routes/cardRoutes.js";
 
 dotenv.config();
 
@@ -70,6 +71,9 @@ app.use("/api/boards", boardRoutes);
 
 // List routes
 app.use("/api/lists", listRoutes);
+
+// Card routes
+app.use("/api/cards", cardRoutes);
 
 // 404 handler
 app.use((req, res) => {
