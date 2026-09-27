@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Login() {
+function Login({ onLogin, onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,13 +11,16 @@ function Login() {
     console.log("Password:", password);
 
     alert("Login button clicked");
+
+    // For now, go to dashboard
+    onLogin();
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
 
-        {/* Logo / Project Name */}
+        {/* Logo */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-blue-600">
             AgileFlow
@@ -87,7 +90,11 @@ function Login() {
         {/* Register */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Don't have an account?{" "}
-          <span className="text-blue-600 cursor-pointer hover:underline">
+
+          <span
+            onClick={onRegister}
+            className="text-blue-600 cursor-pointer hover:underline"
+          >
             Register
           </span>
         </p>
