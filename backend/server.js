@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes');
+const taskRoutes = require('./routes/taskRoutes'); // NEW
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cors());
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes); // NEW
 
 // Base route for testing server
 app.get('/', (req, res) => {
