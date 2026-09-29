@@ -1,115 +1,40 @@
-function Dashboard() {
+function Dashboard({ user, workspaces, loading, onOpenWorkspace, onCreateWorkspace }) {
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Welcome back, Ankit 👋
-        </h1>
-        <p className="text-gray-500 mt-2">
-          Manage your projects and tasks from one place.
-        </p>
-      </div>
-
-      {/* Workspaces */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          My Workspaces
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <div className="text-3xl mb-3">📁</div>
-            <h3 className="text-lg font-semibold">
-              College Project
-            </h3>
-            <p className="text-gray-500 text-sm mt-2">
-              Agile Management Tool
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <div className="text-3xl mb-3">📁</div>
-            <h3 className="text-lg font-semibold">
-              Development
-            </h3>
-            <p className="text-gray-500 text-sm mt-2">
-              Personal development projects
-            </p>
-          </div>
-
+    <main className="p-6 md:p-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-medium text-blue-600">WORKSPACE OVERVIEW</p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-900">Welcome back, {user.name}</h1>
+          <p className="mt-2 text-slate-600">Choose a workspace to create boards and organize your team’s work.</p>
         </div>
+        <button onClick={onCreateWorkspace} className="rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white shadow-sm transition hover:bg-blue-700">+ New workspace</button>
       </div>
 
-      {/* Recent Boards */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Recent Boards
-        </h2>
-
-        <div className="bg-white rounded-xl shadow-sm border">
-
-          <div className="p-5 border-b flex justify-between items-center">
-            <div>
-              <h3 className="font-semibold">
-                Website Development
-              </h3>
-              <p className="text-sm text-gray-500">
-                College Project
-              </p>
-            </div>
-
-            <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
-              Active
-            </span>
+      {loading ? (
+        <p className="text-slate-500">Loading your workspaces…</p>
+      ) : workspaces.length === 0 ? (
+        <section className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
+          <h2 className="text-xl font-semibold text-slate-800">Create your first workspace</h2>
+          <p className="mx-auto mt-2 max-w-md text-slate-500">A workspace is the home for your team, boards, lists, and cards.</p>
+          <button onClick={onCreateWorkspace} className="mt-5 rounded-lg bg-blue-600 px-4 py-2.5 font-medium text-white hover:bg-blue-700">Create workspace</button>
+        </section>
+      ) : (
+        <section>
+          <h2 className="mb-4 text-lg font-semibold text-slate-800">My workspaces</h2>
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {workspaces.map((workspace) => (
+              <article key={workspace._id} className="rounded-xl border bg-white p-5 shadow-sm">
+                <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-blue-100 font-bold text-blue-700">{workspace.name.charAt(0).toUpperCase()}</div>
+                <h3 className="truncate text-lg font-semibold text-slate-800">{workspace.name}</h3>
+                <p className="mt-2 h-10 overflow-hidden text-sm text-slate-500">{workspace.description || 'No description yet.'}</p>
+                <p className="mt-4 text-xs text-slate-400">{workspace.members?.length || 1} member{workspace.members?.length === 1 ? '' : 's'}</p>
+                <button onClick={() => onOpenWorkspace(workspace)} className="mt-4 text-sm font-semibold text-blue-600 hover:text-blue-800">Open workspace →</button>
+              </article>
+            ))}
           </div>
-
-          <div className="p-5 flex justify-between items-center">
-            <div>
-              <h3 className="font-semibold">
-                Project 2
-              </h3>
-              <p className="text-sm text-gray-500">
-                Agile Management Tool
-              </p>
-            </div>
-
-            <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm">
-              In Progress
-            </span>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Tasks */}
-      <div>
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Task Overview
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <p className="text-gray-500">To Do</p>
-            <p className="text-3xl font-bold mt-2">8</p>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <p className="text-gray-500">In Progress</p>
-            <p className="text-3xl font-bold mt-2">4</p>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl shadow-sm border">
-            <p className="text-gray-500">Completed</p>
-            <p className="text-3xl font-bold mt-2">12</p>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
+        </section>
+      )}
+    </main>
   );
 }
 
