@@ -1,40 +1,42 @@
-const Sprint = require('../models/Sprint');
-const Project = require('../models/Project');
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+const sprintRoutes = require('./routes/sprintRoutes');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
-// Create a new sprint
-const createSprint = async (req, res) => {
-  try {
-    const { name, startDate, endDate, project } = req.body;
+// Load environment variables
+dotenv.config();
 
-    // Verify project exists
-    const projectExists = await Project.findById(project);
-    if (!projectExists) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
+// Connect to MongoDB database
+connectDB();
 
-    const sprint = await Sprint.create({
-      name,
-      startDate,
-      endDate,
-      project
-    });
+const app = express();
 
-    res.status(201).json(sprint);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// Middleware
+app.use(express.json());
+app.use(cors());
 
-// Get all sprints for a specific project
-const getProjectSprints = async (req, res) => {
-  try {
-    const { projectId } = req.params;
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/sprints', sprintRoutes);
 
-    const sprints = await Sprint.find({ project: projectId });
-    res.json(sprints);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// Base route for testing server
+app.get('/', (req, res) => {
+  res.send('Agile Management Tool API is running...');
+});
 
-module.exports = { createSprint, getProjectSprints };
+// Error Handling Middlewares (Must be after all routes)
+app.use(notFound);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
