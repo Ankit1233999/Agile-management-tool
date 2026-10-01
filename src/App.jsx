@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import LandingPage from "./pages/LandingPage";
 
 
 function LoadingScreen() {
@@ -32,8 +33,8 @@ function App() {
     isCheckingSession
   } = useAuth();
 
-  // Login / Register
-  const [authPage, setAuthPage] = useState("login");
+  // Landing page / Login / Register state
+  const [authPage, setAuthPage] = useState("home");
 
   // Main pages
   const [view, setView] = useState("dashboard");
@@ -218,20 +219,31 @@ function App() {
 
 
   // --------------------------------
-  // LOGIN / REGISTER
+  // PUBLIC LANDING SITE / LOGIN / REGISTER
   // --------------------------------
 
   if (!user) {
+    if (authPage === "login") {
+      return (
+        <Login
+          onRegister={() => setAuthPage("register")}
+          onBackHome={() => setAuthPage("home")}
+        />
+      );
+    }
+
     if (authPage === "register") {
       return (
         <Register
           onLogin={() => setAuthPage("login")}
+          onBackHome={() => setAuthPage("home")}
         />
       );
     }
 
     return (
-      <Login
+      <LandingPage
+        onLogin={() => setAuthPage("login")}
         onRegister={() => setAuthPage("register")}
       />
     );
@@ -336,7 +348,7 @@ function App() {
             <KanbanBoard
               board={selectedBoard}
               token={token}
-
+              currentUser={user}
               onBack={
                 backToWorkspace
               }

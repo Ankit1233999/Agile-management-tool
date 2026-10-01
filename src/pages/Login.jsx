@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../AuthContext';
 
-function Login({ onRegister }) {
+function Login({ onRegister, onBackHome }) {
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,15 @@ function Login({ onRegister }) {
 
   return (
     <main className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
-      <section className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
+      <section className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg relative">
+        {onBackHome && (
+          <button
+            onClick={onBackHome}
+            className="mb-4 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-blue-600 transition"
+          >
+            &larr; Back to Home
+          </button>
+        )}
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-blue-600">AgileFlow</h1>
           <p className="mt-2 text-slate-500">Your collaborative project workspace</p>

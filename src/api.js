@@ -49,4 +49,6 @@ export const api = {
   updateCard: (cardId, body, token) => request(`/cards/${cardId}`, { method: 'PUT', token, body }),
   moveCard: (cardId, body, token) => request(`/cards/${cardId}/move`, { method: 'PUT', token, body }),
   deleteCard: (cardId, token) => request(`/cards/${cardId}`, { method: 'DELETE', token }),
+  addComment: (cardId, body, token) => request(`/cards/${cardId}/comments`, { method: 'POST', token, body }),
+  deleteComment: (cardId, commentId, token) => request(`/cards/${cardId}/comments/${commentId}`, { method: 'DELETE', token }),
 };
