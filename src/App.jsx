@@ -264,15 +264,12 @@ function App() {
           selectedWorkspace?._id
         }
         view={view}
-
         onDashboard={openDashboard}
-
+        onKanbanBoard={openDashboard}
         onSelectWorkspace={selectWorkspace}
-
         onCreateWorkspace={
           startCreateWorkspace
         }
-
         onSettings={openSettings}
       />
 
