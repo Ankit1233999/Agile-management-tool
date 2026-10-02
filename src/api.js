@@ -8,20 +8,33 @@ export class ApiError extends Error {
 }
 
 async function request(path, { method = 'GET', token, body } = {}) {
-  const response = await fetch(`${API_URL}${path}`, {
-    method,
-    headers: {
-      ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
-  });
+  try {
+    const response = await fetch(`${API_URL}${path}`, {
+      method,
+      headers: {
+        ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+    });
 
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new ApiError(data.message || 'Something went wrong. Please try again.', response.status);
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new ApiError(data.message || 'Authentication or server error. Please try again.', response.status);
+    }
+    return data;
+  } catch (error) {
+    if (error instanceof ApiError) throw error;
+
+    // Handle fetch network failures gracefully
+    if (error.name === 'TypeError' || error.message?.includes('Failed to fetch')) {
+      throw new ApiError(
+        'Unable to connect to backend server at http://localhost:5000. Please make sure backend is running or use Quick Demo Sign In.',
+        503
+      );
+    }
+    throw error;
   }
-  return data;
 }
 
 export const api = {
