@@ -2,17 +2,14 @@ function LandingPage({ onLogin, onRegister }) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
 
-      {/* HEADER */}
+      {/* ================= HEADER ================= */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
-
         <div className="max-w-7xl mx-auto px-6 py-4">
-
           <div className="flex items-center justify-between">
 
             {/* LOGO */}
             <div className="flex items-center gap-3">
-
-              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-sm">
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-sm">
                 <span className="text-xl font-bold text-white">
                   A
                 </span>
@@ -20,110 +17,94 @@ function LandingPage({ onLogin, onRegister }) {
 
               <div>
                 <h1 className="text-xl font-bold text-slate-900">
-                  Agile<span className="text-blue-600">Flow</span>
+                  Agile<span className="text-indigo-600">Flow</span>
                 </h1>
 
                 <p className="text-[10px] uppercase tracking-wider text-slate-400">
                   Project Management
                 </p>
               </div>
-
             </div>
-
 
             {/* NAVIGATION */}
             <nav className="hidden md:flex items-center gap-8">
-
               <a
                 href="#features"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition"
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition"
               >
                 Features
               </a>
 
               <a
                 href="#workflow"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition"
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition"
               >
                 Workflow
               </a>
 
               <a
                 href="#technology"
-                className="text-sm font-medium text-slate-600 hover:text-blue-600 transition"
+                className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition"
               >
                 Technology
               </a>
-
             </nav>
-
 
             {/* BUTTONS */}
             <div className="flex items-center gap-3">
-
               <button
                 onClick={onLogin}
-                className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-600 transition"
+                className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition"
               >
                 Sign in
               </button>
 
               <button
                 onClick={onRegister}
-                className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-sm transition"
+                className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-sm transition"
               >
                 Get Started
               </button>
-
             </div>
 
           </div>
-
         </div>
-
       </header>
 
 
-      {/* HERO */}
+      {/* ================= HERO ================= */}
       <section className="relative overflow-hidden">
 
         {/* Background decoration */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-100/60 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-100/60 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-6 pt-20 pb-16">
 
           <div className="max-w-4xl mx-auto text-center">
 
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium">
-
-              <span className="w-2 h-2 rounded-full bg-blue-600" />
-
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-sm font-medium">
+              <span className="w-2 h-2 rounded-full bg-indigo-600" />
               Real-Time Collaborative Workspace
-
             </div>
 
 
             {/* Heading */}
             <h2 className="mt-7 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-tight">
-
               Manage projects.
               <br />
 
-              <span className="text-blue-600">
+              <span className="text-indigo-600">
                 Work better together.
               </span>
-
             </h2>
 
 
             {/* Description */}
             <p className="max-w-2xl mx-auto mt-6 text-lg text-slate-500 leading-relaxed">
-
               AgileFlow gives your team one simple workspace to manage
               projects, organize tasks, collaborate in real time, and
               deliver work faster.
-
             </p>
 
 
@@ -132,7 +113,7 @@ function LandingPage({ onLogin, onRegister }) {
 
               <button
                 onClick={onRegister}
-                className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-600/20 transition"
+                className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-600/20 transition"
               >
                 Create Free Workspace
                 <span className="ml-2">→</span>
@@ -150,24 +131,22 @@ function LandingPage({ onLogin, onRegister }) {
 
             {/* TRUST ITEMS */}
             <div className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-400">
-
               <span>✓ Kanban Boards</span>
               <span>✓ Real-Time Updates</span>
               <span>✓ Team Collaboration</span>
               <span>✓ Secure Access</span>
-
             </div>
 
           </div>
 
 
-          {/* PRODUCT PREVIEW */}
+          {/* ================= PRODUCT PREVIEW ================= */}
           <div
             id="workflow"
             className="mt-20 relative"
           >
 
-            <div className="absolute inset-0 bg-blue-100/50 blur-3xl rounded-full" />
+            <div className="absolute inset-0 bg-indigo-100/50 blur-3xl rounded-full" />
 
             <div className="relative rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-200/70 overflow-hidden">
 
@@ -175,11 +154,9 @@ function LandingPage({ onLogin, onRegister }) {
               <div className="h-12 px-5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
 
                 <div className="flex items-center gap-2">
-
                   <span className="w-3 h-3 rounded-full bg-slate-300" />
                   <span className="w-3 h-3 rounded-full bg-slate-300" />
                   <span className="w-3 h-3 rounded-full bg-slate-300" />
-
                 </div>
 
                 <div className="hidden sm:block px-6 py-1.5 rounded-md bg-white border border-slate-200 text-xs text-slate-400">
@@ -187,7 +164,6 @@ function LandingPage({ onLogin, onRegister }) {
                 </div>
 
                 <div className="w-16" />
-
               </div>
 
 
@@ -199,7 +175,7 @@ function LandingPage({ onLogin, onRegister }) {
 
                   <div className="flex items-center gap-2 mb-8">
 
-                    <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">
                       A
                     </div>
 
@@ -212,19 +188,19 @@ function LandingPage({ onLogin, onRegister }) {
 
                   <div className="space-y-2">
 
-                    <div className="px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 text-sm font-medium">
+                    <div className="px-3 py-2.5 rounded-lg bg-indigo-50 text-indigo-600 text-sm font-medium">
                       🏠 Dashboard
                     </div>
 
-                    <div className="px-3 py-2.5 rounded-lg text-slate-500 text-sm">
+                    <div className="px-3 py-2.5 rounded-lg text-slate-500 text-sm hover:bg-white transition">
                       📊 Kanban Board
                     </div>
 
-                    <div className="px-3 py-2.5 rounded-lg text-slate-500 text-sm">
+                    <div className="px-3 py-2.5 rounded-lg text-slate-500 text-sm hover:bg-white transition">
                       📁 Workspaces
                     </div>
 
-                    <div className="px-3 py-2.5 rounded-lg text-slate-500 text-sm">
+                    <div className="px-3 py-2.5 rounded-lg text-slate-500 text-sm hover:bg-white transition">
                       ⚙️ Settings
                     </div>
 
@@ -257,8 +233,7 @@ function LandingPage({ onLogin, onRegister }) {
                   <div className="flex items-center justify-between mb-7">
 
                     <div>
-
-                      <p className="text-xs text-blue-600 font-semibold mb-1">
+                      <p className="text-xs text-indigo-600 font-semibold mb-1">
                         WORKSPACE
                       </p>
 
@@ -269,10 +244,9 @@ function LandingPage({ onLogin, onRegister }) {
                       <p className="text-xs text-slate-400 mt-1">
                         Sprint board • 8 active tasks
                       </p>
-
                     </div>
 
-                    <button className="hidden sm:block px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold">
+                    <button className="hidden sm:block px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition">
                       + Add task
                     </button>
 
@@ -281,7 +255,6 @@ function LandingPage({ onLogin, onRegister }) {
 
                   {/* COLUMNS */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
 
                     {/* TODO */}
                     <div className="rounded-xl bg-slate-50 border border-slate-200 p-4">
@@ -313,7 +286,7 @@ function LandingPage({ onLogin, onRegister }) {
 
                           <div className="flex justify-between items-center mt-4">
 
-                            <span className="px-2 py-1 rounded bg-blue-50 text-blue-600 text-[10px] font-medium">
+                            <span className="px-2 py-1 rounded bg-indigo-50 text-indigo-600 text-[10px] font-medium">
                               Backend
                             </span>
 
@@ -344,7 +317,7 @@ function LandingPage({ onLogin, onRegister }) {
 
 
                     {/* IN PROGRESS */}
-                    <div className="rounded-xl bg-blue-50/50 border border-blue-100 p-4">
+                    <div className="rounded-xl bg-indigo-50/50 border border-indigo-100 p-4">
 
                       <div className="flex items-center justify-between mb-4">
 
@@ -352,20 +325,20 @@ function LandingPage({ onLogin, onRegister }) {
                           In Progress
                         </span>
 
-                        <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-600 text-xs">
+                        <span className="px-2 py-1 rounded-full bg-indigo-100 text-indigo-600 text-xs">
                           2
                         </span>
 
                       </div>
 
 
-                      <div className="p-4 rounded-lg bg-white border border-blue-200 shadow-sm">
+                      <div className="p-4 rounded-lg bg-white border border-indigo-200 shadow-sm">
 
                         <div className="flex items-center gap-2 mb-2">
 
-                          <span className="w-2 h-2 rounded-full bg-blue-600" />
+                          <span className="w-2 h-2 rounded-full bg-indigo-600" />
 
-                          <span className="text-[10px] text-blue-600 font-semibold">
+                          <span className="text-[10px] text-indigo-600 font-semibold">
                             IN PROGRESS
                           </span>
 
@@ -381,17 +354,17 @@ function LandingPage({ onLogin, onRegister }) {
 
                         <div className="mt-4 flex items-center justify-between">
 
-                          <span className="text-[10px] text-blue-600 font-medium">
+                          <span className="text-[10px] text-indigo-600 font-medium">
                             ⚡ Socket.io
                           </span>
 
                           <div className="flex -space-x-2">
 
-                            <div className="w-6 h-6 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center text-[9px] font-bold text-white">
+                            <div className="w-6 h-6 rounded-full bg-indigo-600 border-2 border-white flex items-center justify-center text-[9px] font-bold text-white">
                               A
                             </div>
 
-                            <div className="w-6 h-6 rounded-full bg-indigo-500 border-2 border-white flex items-center justify-center text-[9px] font-bold text-white">
+                            <div className="w-6 h-6 rounded-full bg-violet-500 border-2 border-white flex items-center justify-center text-[9px] font-bold text-white">
                               S
                             </div>
 
@@ -478,7 +451,7 @@ function LandingPage({ onLogin, onRegister }) {
       </section>
 
 
-      {/* FEATURES */}
+      {/* ================= FEATURES ================= */}
       <section
         id="features"
         className="border-t border-slate-200 bg-white"
@@ -488,7 +461,7 @@ function LandingPage({ onLogin, onRegister }) {
 
           <div className="max-w-2xl mx-auto text-center mb-16">
 
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+            <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">
               Powerful Features
             </p>
 
@@ -506,11 +479,10 @@ function LandingPage({ onLogin, onRegister }) {
 
           <div className="grid md:grid-cols-3 gap-6">
 
-
             {/* CARD 1 */}
-            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/50 transition">
+            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-100/50 transition">
 
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-6">
+              <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mb-6">
                 ⚡
               </div>
 
@@ -527,9 +499,9 @@ function LandingPage({ onLogin, onRegister }) {
 
 
             {/* CARD 2 */}
-            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/50 transition">
+            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-violet-200 hover:shadow-lg hover:shadow-violet-100/50 transition">
 
-              <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mb-6">
+              <div className="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center text-2xl mb-6">
                 📋
               </div>
 
@@ -546,7 +518,7 @@ function LandingPage({ onLogin, onRegister }) {
 
 
             {/* CARD 3 */}
-            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/50 transition">
+            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-100/50 transition">
 
               <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-6">
                 👥
@@ -565,7 +537,7 @@ function LandingPage({ onLogin, onRegister }) {
 
 
             {/* CARD 4 */}
-            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/50 transition">
+            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-cyan-200 hover:shadow-lg hover:shadow-cyan-100/50 transition">
 
               <div className="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl mb-6">
                 🔐
@@ -584,7 +556,7 @@ function LandingPage({ onLogin, onRegister }) {
 
 
             {/* CARD 5 */}
-            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/50 transition">
+            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-amber-200 hover:shadow-lg hover:shadow-amber-100/50 transition">
 
               <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-6">
                 🚀
@@ -603,7 +575,7 @@ function LandingPage({ onLogin, onRegister }) {
 
 
             {/* CARD 6 */}
-            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-100/50 transition">
+            <div className="p-7 rounded-2xl border border-slate-200 bg-white hover:border-purple-200 hover:shadow-lg hover:shadow-purple-100/50 transition">
 
               <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-6">
                 💬
@@ -627,7 +599,7 @@ function LandingPage({ onLogin, onRegister }) {
       </section>
 
 
-      {/* TECHNOLOGY */}
+      {/* ================= TECHNOLOGY ================= */}
       <section
         id="technology"
         className="bg-slate-50 border-t border-slate-200"
@@ -637,7 +609,7 @@ function LandingPage({ onLogin, onRegister }) {
 
           <div className="max-w-4xl mx-auto text-center">
 
-            <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
+            <p className="text-sm font-semibold uppercase tracking-wider text-indigo-600">
               Technology
             </p>
 
@@ -666,7 +638,7 @@ function LandingPage({ onLogin, onRegister }) {
 
                 <span
                   key={tech}
-                  className="px-5 py-2.5 rounded-full bg-white border border-slate-200 text-sm font-medium text-slate-600 shadow-sm"
+                  className="px-5 py-2.5 rounded-full bg-white border border-slate-200 text-sm font-medium text-slate-600 shadow-sm hover:border-indigo-200 hover:text-indigo-600 transition"
                 >
                   {tech}
                 </span>
@@ -682,12 +654,12 @@ function LandingPage({ onLogin, onRegister }) {
       </section>
 
 
-      {/* CTA */}
+      {/* ================= CTA ================= */}
       <section className="bg-white border-t border-slate-200">
 
         <div className="max-w-4xl mx-auto px-6 py-24 text-center">
 
-          <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-blue-600/20">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-indigo-600/20">
             A
           </div>
 
@@ -702,7 +674,7 @@ function LandingPage({ onLogin, onRegister }) {
 
           <button
             onClick={onRegister}
-            className="mt-8 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-600/20 transition"
+            className="mt-8 px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-600/20 transition"
           >
             Create Your Workspace
             <span className="ml-2">→</span>
@@ -713,7 +685,7 @@ function LandingPage({ onLogin, onRegister }) {
       </section>
 
 
-      {/* FOOTER */}
+      {/* ================= FOOTER ================= */}
       <footer className="border-t border-slate-200 bg-white">
 
         <div className="max-w-7xl mx-auto px-6 py-8">
@@ -722,14 +694,14 @@ function LandingPage({ onLogin, onRegister }) {
 
             <div className="flex items-center gap-3">
 
-              <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
+              <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">
                 A
               </div>
 
               <div>
 
                 <p className="font-bold text-slate-800">
-                  Agile<span className="text-blue-600">Flow</span>
+                  Agile<span className="text-indigo-600">Flow</span>
                 </p>
 
                 <p className="text-xs text-slate-400">
@@ -745,14 +717,14 @@ function LandingPage({ onLogin, onRegister }) {
 
               <button
                 onClick={onLogin}
-                className="hover:text-blue-600 transition"
+                className="hover:text-indigo-600 transition"
               >
                 Sign in
               </button>
 
               <button
                 onClick={onRegister}
-                className="hover:text-blue-600 transition"
+                className="hover:text-indigo-600 transition"
               >
                 Create account
               </button>
