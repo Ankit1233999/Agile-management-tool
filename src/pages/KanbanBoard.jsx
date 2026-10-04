@@ -25,7 +25,10 @@ function CardEditor({ card, currentUser, token, socketRef, boardId, boardMembers
   const [commentError, setCommentError] = useState('');
   const typingTimeoutRef = useRef(null);
 
-  useEffect(() => {
+  const [prevCard, setPrevCard] = useState(card);
+
+  if (card !== prevCard) {
+    setPrevCard(card);
     setTitle(card.title);
     setDescription(card.description || '');
     setAssignedTo(
@@ -33,7 +36,7 @@ function CardEditor({ card, currentUser, token, socketRef, boardId, boardMembers
         ? card.assignedTo.map((m) => (typeof m === 'object' ? m._id : m))
         : []
     );
-  }, [card]);
+  }
 
   const emitTypingStart = () => {
     if (socketRef?.current && boardId) {
@@ -885,6 +888,7 @@ function KanbanBoard({ board, token, currentUser, onBack }) {
       {/* CARD EDITOR MODAL */}
       {editingCard && (
         <CardEditor
+          key={editingCard._id}
           card={editingCard}
           currentUser={currentUser}
           token={token}

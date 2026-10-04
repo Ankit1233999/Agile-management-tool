@@ -57,7 +57,7 @@ function App() {
 
 
   // --------------------------------
-  // LOAD WORKSPACES
+  // LOAD WORKSPACES WHEN LOGIN
   // --------------------------------
 
   const loadWorkspaces = useCallback(async () => {
@@ -68,40 +68,29 @@ function App() {
 
     try {
       const data = await api.getWorkspaces(token);
-
       setWorkspaces(data);
-
       setSelectedWorkspace((current) => {
         return (
-          data.find(
-            (workspace) => workspace._id === current?._id
-          ) ||
+          data.find((workspace) => workspace._id === current?._id) ||
           current ||
           data[0] ||
           null
         );
       });
-
     } catch (error) {
       console.error(error);
-      setWorkspaceError(
-        error.message || "Failed to load workspaces"
-      );
-
+      setWorkspaceError(error.message || "Failed to load workspaces");
     } finally {
       setLoadingWorkspaces(false);
     }
   }, [token]);
 
-
-  // --------------------------------
-  // LOAD WORKSPACES WHEN LOGIN
-  // --------------------------------
-
   useEffect(() => {
     if (!token) return;
-
-    loadWorkspaces();
+    const timer = setTimeout(() => {
+      loadWorkspaces();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [token, loadWorkspaces]);
 
 
