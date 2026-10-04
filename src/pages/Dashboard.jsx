@@ -113,7 +113,7 @@ function Dashboard({ user, workspaces = [], loading, onOpenWorkspace, onCreateWo
       {/* Main Board Container */}
       <main className="mx-auto max-w-7xl rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
         {/* Board Header Section */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-xs font-extrabold tracking-wider text-[#2563eb] uppercase">
               WORKSPACE
@@ -122,17 +122,50 @@ function Dashboard({ user, workspaces = [], loading, onOpenWorkspace, onCreateWo
               Agile Development
             </h1>
             <p className="mt-1.5 text-sm font-medium text-slate-500">
-              Sprint board • {totalTasks} active tasks
+              Sprint board • {totalTasks} active tasks {user?.name ? `• Signed in as ${user.name}` : ''}
             </p>
           </div>
 
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#2563eb] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.98]"
-          >
-            <span>+</span> Add task
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            {onCreateWorkspace && (
+              <button
+                onClick={onCreateWorkspace}
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-xs transition hover:bg-slate-50 active:scale-[0.98]"
+              >
+                + New Workspace
+              </button>
+            )}
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#2563eb] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.98]"
+            >
+              <span>+</span> Add task
+            </button>
+          </div>
         </div>
+
+        {/* Workspaces Quick Selector */}
+        {loading ? (
+          <div className="mb-6 text-xs text-slate-400 italic">Loading active workspaces...</div>
+        ) : workspaces && workspaces.length > 0 ? (
+          <div className="mb-6 rounded-xl border border-slate-200/60 bg-slate-50/70 p-3 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 overflow-x-auto py-0.5">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400 mr-1">
+                Your Workspaces ({workspaces.length}):
+              </span>
+              {workspaces.map((ws) => (
+                <button
+                  key={ws._id}
+                  onClick={() => onOpenWorkspace && onOpenWorkspace(ws)}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:border-blue-500 hover:text-blue-600 transition shadow-2xs cursor-pointer"
+                >
+                  <span className="h-2 w-2 rounded-full bg-blue-500"></span>
+                  {ws.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         {/* 3 Columns Sprint Board Grid */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
