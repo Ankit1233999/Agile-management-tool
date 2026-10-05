@@ -12,20 +12,12 @@ function Sidebar({
 }) {
   const { logout } = useAuth();
 
-  // Combine default sample workspaces from image if none or append
-  const defaultWorkspaces = [
-    { _id: 'sample-1', name: 'College Project' },
-    { _id: 'sample-2', name: 'Development' },
-  ];
-
-  const displayedWorkspaces = workspaces.length > 0 
-    ? workspaces 
-    : defaultWorkspaces;
+  const displayedWorkspaces = workspaces;
 
   return (
     <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-slate-200/60 bg-white p-5 text-slate-700 select-none">
       {/* Brand Header */}
-      <div className="mb-8 flex items-center gap-3">
+      <div className="mb-8 flex items-center gap-3 cursor-pointer" onClick={onDashboard}>
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2563eb] text-lg font-bold text-white shadow-md shadow-blue-500/20">
           A
         </div>
@@ -63,7 +55,11 @@ function Sidebar({
         {/* Workspaces */}
         <button
           onClick={() => {
-            if (displayedWorkspaces[0]) onSelectWorkspace(displayedWorkspaces[0]);
+            if (displayedWorkspaces && displayedWorkspaces.length > 0) {
+              onSelectWorkspace(displayedWorkspaces[0]);
+            } else {
+              onCreateWorkspace();
+            }
           }}
           className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium transition-all ${
             view === 'workspace'
@@ -94,22 +90,26 @@ function Sidebar({
             WORKSPACES
           </p>
           <div className="space-y-1">
-            {displayedWorkspaces.map((workspace) => {
-              const isSelected = selectedWorkspaceId === workspace._id && view === 'workspace';
-              return (
-                <button
-                  key={workspace._id}
-                  onClick={() => onSelectWorkspace(workspace)}
-                  className={`block w-full truncate rounded-lg px-3.5 py-2 text-left text-sm transition-all ${
-                    isSelected
-                      ? 'bg-slate-100 font-semibold text-slate-900'
-                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-                  }`}
-                >
-                  {workspace.name}
-                </button>
-              );
-            })}
+            {displayedWorkspaces && displayedWorkspaces.length > 0 ? (
+              displayedWorkspaces.map((workspace) => {
+                const isSelected = selectedWorkspaceId === workspace._id && view === 'workspace';
+                return (
+                  <button
+                    key={workspace._id}
+                    onClick={() => onSelectWorkspace(workspace)}
+                    className={`block w-full truncate rounded-lg px-3.5 py-2 text-left text-sm transition-all ${
+                      isSelected
+                        ? 'bg-slate-100 font-semibold text-slate-900'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                    }`}
+                  >
+                    {workspace.name}
+                  </button>
+                );
+              })
+            ) : (
+              <p className="px-3.5 py-1 text-xs text-slate-400 italic">No workspaces created yet</p>
+            )}
           </div>
 
           <button

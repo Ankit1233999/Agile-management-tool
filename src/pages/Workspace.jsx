@@ -128,7 +128,17 @@ function Workspace({ workspace, token, onWorkspaceCreated, onWorkspaceUpdated, o
         <div className="rounded-lg bg-white px-4 py-2 text-sm text-slate-600 shadow-sm ring-1 ring-slate-200">{activeWorkspace.members?.length || 1} team member{activeWorkspace.members?.length === 1 ? '' : 's'}</div>
       </div>
 
-      {error && <p className="mb-5 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+      {error && (
+        <div className="mb-5 flex items-center justify-between rounded-lg bg-red-50 p-3.5 text-sm text-red-700 border border-red-200">
+          <span>{error}</span>
+          <button
+            onClick={() => setError('')}
+            className="ml-3 rounded-md px-2 py-0.5 text-xs font-semibold text-red-600 hover:bg-red-100"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       <section className="mb-8 rounded-xl border bg-white p-5 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-800">Create a board</h2>
         <form className="mt-4 flex flex-col gap-3 sm:flex-row" onSubmit={createBoard}>

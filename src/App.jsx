@@ -272,8 +272,14 @@ function App() {
 
         {/* ERROR MESSAGE */}
         {workspaceError && (
-          <div className="mx-6 mt-5 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-            {workspaceError}
+          <div className="mx-6 mt-5 flex items-center justify-between rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 shadow-2xs">
+            <span>{workspaceError}</span>
+            <button
+              onClick={() => setWorkspaceError("")}
+              className="ml-3 rounded-lg px-2 py-1 text-xs font-bold text-red-600 hover:bg-red-100"
+            >
+              ✕
+            </button>
           </div>
         )}
 
