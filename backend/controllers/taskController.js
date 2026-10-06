@@ -1,23 +1,17 @@
 const Task = require('../models/Task');
-const Project = require('../models/Project');
 
-// Create a new task in a project
+// Create a new task
 const createTask = async (req, res) => {
   try {
-    const { title, description, status, project, assignedTo } = req.body;
-
-    // Verify project exists
-    const projectExists = await Project.findById(project);
-    if (!projectExists) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
+    const { title, description, status, project, assignedTo, dueDate } = req.body;
 
     const task = await Task.create({
       title,
       description,
-      status: status || 'To Do',
+      status,
       project,
-      assignedTo: assignedTo || null
+      assignedTo,
+      dueDate,
     });
 
     res.status(201).json(task);
@@ -26,24 +20,30 @@ const createTask = async (req, res) => {
   }
 };
 
-// Get all tasks for a specific project
-const getProjectTasks = async (req, res) => {
+// Get tasks with optional project filtering
+const getTasks = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const filter = {};
+    if (req.query.project) {
+      filter.project = req.query.project;
+    }
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
 
-    const tasks = await Task.find({ project: projectId }).populate('assignedTo', 'username email');
-    res.json(tasks);
+    const tasks = await Task.find(filter).populate('assignedTo', 'name email');
+    res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Update task status (Kanban board support)
+// Update task status
 const updateTaskStatus = async (req, res) => {
   try {
     const { status } = req.body;
-
     const task = await Task.findById(req.params.id);
+
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
@@ -51,10 +51,10 @@ const updateTaskStatus = async (req, res) => {
     task.status = status || task.status;
     const updatedTask = await task.save();
 
-    res.json(updatedTask);
+    res.status(200).json(updatedTask);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { createTask, getProjectTasks, updateTaskStatus };
+module.exports = { createTask, getTasks, updateTaskStatus };
