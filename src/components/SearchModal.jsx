@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-function SearchModal({ isOpen, onClose }) {
+function SearchModal({ isOpen, onClose, onSelectBoard }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState({ cards: [], boards: [] });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isOpen) {
@@ -80,7 +78,7 @@ function SearchModal({ isOpen, onClose }) {
                       className="px-4 py-2 hover:bg-slate-50 rounded-lg cursor-pointer flex items-center gap-3"
                       onClick={() => {
                         onClose();
-                        navigate(`/b/${board._id}`);
+                        if (onSelectBoard) onSelectBoard(board);
                       }}
                     >
                       <div className="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">
@@ -101,7 +99,7 @@ function SearchModal({ isOpen, onClose }) {
                       className="px-4 py-3 hover:bg-slate-50 rounded-lg cursor-pointer"
                       onClick={() => {
                         onClose();
-                        navigate(`/b/${card.board._id}`);
+                        if (onSelectBoard) onSelectBoard(card.board);
                       }}
                     >
                       <div className="text-sm font-medium text-slate-700">{card.title}</div>

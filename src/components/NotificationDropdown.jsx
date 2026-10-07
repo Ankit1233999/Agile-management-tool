@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function NotificationDropdown({ notifications, setNotifications, unreadCount, setUnreadCount }) {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
 
   const markAsRead = async (id) => {
     try {
@@ -38,13 +36,7 @@ function NotificationDropdown({ notifications, setNotifications, unreadCount, se
       markAsRead(notification._id);
     }
     setIsOpen(false);
-    if (notification.entityType === 'Card') {
-      // Find the card's board... for simplicity in this demo we might need to route to a search or specific board if available in entity data.
-      // Usually, entityId is the Card ID. To route, we need the Board ID.
-      // Assuming we have to navigate to a dashboard if board is unknown, or we could fetch the card details.
-      // For now, let's just close. In a full implementation, we'd fetch the card's board ID and navigate to `/b/${boardId}`.
-      navigate('/');
-    }
+    // Board resolution could be done here, but for simplicity we'll just mark as read
   };
 
   return (

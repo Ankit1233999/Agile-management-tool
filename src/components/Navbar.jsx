@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import SearchModal from './SearchModal';
 import NotificationDropdown from './NotificationDropdown';
 
-function Navbar({ user }) {
+function Navbar({ user, onOpenBoard }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -70,7 +70,7 @@ function Navbar({ user }) {
         </div>
       </div>
     </header>
-      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} onSelectBoard={onOpenBoard} />
     </>
   );
 }
