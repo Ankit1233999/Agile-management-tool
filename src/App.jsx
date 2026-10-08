@@ -267,7 +267,7 @@ function App() {
       <div className="min-w-0 flex-1">
 
         {/* NAVBAR */}
-        <Navbar user={user} />
+        <Navbar user={user} onOpenBoard={openBoard} />
 
 
         {/* ERROR MESSAGE */}
