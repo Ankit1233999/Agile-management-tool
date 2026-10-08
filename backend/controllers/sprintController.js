@@ -4,9 +4,8 @@ const Project = require('../models/Project');
 // Create a new sprint
 const createSprint = async (req, res) => {
   try {
-    const { name, startDate, endDate, project } = req.body;
+    const { name, startDate, endDate, project, status } = req.body;
 
-    // Verify project exists
     const projectExists = await Project.findById(project);
     if (!projectExists) {
       return res.status(404).json({ message: 'Project not found' });
@@ -16,7 +15,8 @@ const createSprint = async (req, res) => {
       name,
       startDate,
       endDate,
-      project
+      project,
+      status: status || 'Planned',
     });
 
     res.status(201).json(sprint);
@@ -29,7 +29,6 @@ const createSprint = async (req, res) => {
 const getProjectSprints = async (req, res) => {
   try {
     const { projectId } = req.params;
-
     const sprints = await Sprint.find({ project: projectId });
     res.json(sprints);
   } catch (error) {
@@ -37,4 +36,23 @@ const getProjectSprints = async (req, res) => {
   }
 };
 
-module.exports = { createSprint, getProjectSprints };
+// Update sprint status
+const updateSprintStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const sprint = await Sprint.findById(req.params.id);
+
+    if (!sprint) {
+      return res.status(404).json({ message: 'Sprint not found' });
+    }
+
+    sprint.status = status || sprint.status;
+    const updatedSprint = await sprint.save();
+
+    res.status(200).json(updatedSprint);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createSprint, getProjectSprints, updateSprintStatus };
