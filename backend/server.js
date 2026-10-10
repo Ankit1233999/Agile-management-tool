@@ -8,7 +8,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const sprintRoutes = require('./routes/sprintRoutes');
 const healthRoutes = require('./routes/healthRoutes');
-const commentRoutes = require('./routes/commentRoutes'); // NEW
+const commentRoutes = require('./routes/commentRoutes');
+const activityRoutes = require('./routes/activityRoutes'); // NEW
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Load environment variables
@@ -32,7 +33,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/sprints', sprintRoutes);
 app.use('/api/health', healthRoutes);
-app.use('/api/comments', commentRoutes); // NEW
+app.use('/api/comments', commentRoutes);
+app.use('/api/activities', activityRoutes); // NEW
 
 // Base route for testing server
 app.get('/', (req, res) => {
