@@ -321,6 +321,7 @@ function KanbanBoard({ board, token, currentUser, onBack }) {
   const [inlineCardTitle, setInlineCardTitle] = useState('');
   const [newListTitle, setNewListTitle] = useState('');
   const [showListInput, setShowListInput] = useState(false);
+  const [isCreatingList, setIsCreatingList] = useState(false);
   const [editingCard, setEditingCard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [savingCard, setSavingCard] = useState(false);
@@ -513,15 +514,21 @@ function KanbanBoard({ board, token, currentUser, onBack }) {
 
   const createList = async (event) => {
     event.preventDefault();
-    if (!newListTitle.trim()) return;
+    if (!newListTitle.trim() || isCreatingList) return;
     setError('');
+    setIsCreatingList(true);
     try {
       const created = await api.createList({ title: newListTitle, boardId: board._id }, token);
-      setLists((current) => [...current, created]);
+      setLists((current) => {
+        if (current.some((l) => l._id === created._id)) return current;
+        return [...current, created];
+      });
       setNewListTitle('');
       setShowListInput(false);
     } catch (requestError) {
       showError(requestError);
+    } finally {
+      setIsCreatingList(false);
     }
   };
 
@@ -694,8 +701,11 @@ function KanbanBoard({ board, token, currentUser, onBack }) {
             placeholder="List title (e.g. In Review)"
             className="min-w-0 flex-1 rounded-xl border border-slate-200 px-3.5 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-xs transition">
-            Add
+          <button 
+            disabled={isCreatingList}
+            className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-xs transition disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isCreatingList ? 'Adding...' : 'Add'}
           </button>
           <button
             type="button"
