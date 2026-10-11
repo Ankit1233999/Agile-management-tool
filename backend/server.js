@@ -10,7 +10,8 @@ const sprintRoutes = require('./routes/sprintRoutes');
 const healthRoutes = require('./routes/healthRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const activityRoutes = require('./routes/activityRoutes');
-const labelRoutes = require('./routes/labelRoutes'); // NEW
+const labelRoutes = require('./routes/labelRoutes');
+const attachmentRoutes = require('./routes/attachmentRoutes'); // NEW
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Load environment variables
@@ -36,7 +37,8 @@ app.use('/api/sprints', sprintRoutes);
 app.use('/api/health', healthRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/activities', activityRoutes);
-app.use('/api/labels', labelRoutes); // NEW
+app.use('/api/labels', labelRoutes);
+app.use('/api/attachments', attachmentRoutes); // NEW
 
 // Base route for testing server
 app.get('/', (req, res) => {
