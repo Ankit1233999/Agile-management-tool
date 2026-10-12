@@ -7,9 +7,16 @@ const AuthContext = createContext(null);
 
 const readStoredSession = () => {
   try {
-    return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const session = JSON.parse(raw);
+    if (session?.token && !localStorage.getItem('token')) {
+      localStorage.setItem('token', session.token);
+    }
+    return session;
   } catch {
     localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem('token');
     return null;
   }
 };
@@ -19,8 +26,9 @@ export function AuthProvider({ children }) {
   const [isCheckingSession, setIsCheckingSession] = useState(Boolean(session?.token));
 
   const setAuthenticatedSession = (nextSession) => {
+    const token = nextSession.token || localStorage.getItem('token') || '';
     const normalized = {
-      token: nextSession.token,
+      token,
       user: {
         _id: nextSession._id || nextSession.user?._id,
         name: nextSession.name || nextSession.user?.name,
@@ -29,11 +37,15 @@ export function AuthProvider({ children }) {
       },
     };
     localStorage.setItem(SESSION_KEY, JSON.stringify(normalized));
+    if (token) {
+      localStorage.setItem('token', token);
+    }
     setSession(normalized);
   };
 
   const logout = () => {
     localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem('token');
     setSession(null);
   };
 
