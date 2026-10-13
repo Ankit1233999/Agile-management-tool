@@ -11,7 +11,8 @@ const healthRoutes = require('./routes/healthRoutes');
 const commentRoutes = require('./routes/commentRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const labelRoutes = require('./routes/labelRoutes');
-const attachmentRoutes = require('./routes/attachmentRoutes'); // NEW
+const attachmentRoutes = require('./routes/attachmentRoutes');
+const subtaskRoutes = require('./routes/subtaskRoutes'); // NEW
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Load environment variables
@@ -38,7 +39,8 @@ app.use('/api/health', healthRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/labels', labelRoutes);
-app.use('/api/attachments', attachmentRoutes); // NEW
+app.use('/api/attachments', attachmentRoutes);
+app.use('/api/subtasks', subtaskRoutes); // NEW
 
 // Base route for testing server
 app.get('/', (req, res) => {
