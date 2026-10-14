@@ -1,3 +1,4 @@
+
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -12,7 +13,8 @@ const commentRoutes = require('./routes/commentRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const labelRoutes = require('./routes/labelRoutes');
 const attachmentRoutes = require('./routes/attachmentRoutes');
-const subtaskRoutes = require('./routes/subtaskRoutes'); // NEW
+const subtaskRoutes = require('./routes/subtaskRoutes');
+const workspaceRoutes = require('./routes/workspaceRoutes'); // NEW
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Load environment variables
@@ -40,7 +42,8 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/labels', labelRoutes);
 app.use('/api/attachments', attachmentRoutes);
-app.use('/api/subtasks', subtaskRoutes); // NEW
+app.use('/api/subtasks', subtaskRoutes);
+app.use('/api/workspaces', workspaceRoutes); // NEW
 
 // Base route for testing server
 app.get('/', (req, res) => {
